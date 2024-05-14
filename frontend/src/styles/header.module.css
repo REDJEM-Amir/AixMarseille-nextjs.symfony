@@ -1,0 +1,118 @@
+
+.link {
+    text-decoration-line: none;
+    text-decoration: none;
+    text-decoration-style: none;
+}
+
+.container {
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: var(--CLR-01);
+    width: 100%;
+    height: 60px;
+}
+
+.content {
+    position: relative;
+    display: flex;
+    gap: 25px;
+    margin-left: 40px;
+}
+
+.contentNavigation {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-bottom: 1px solid white;
+    padding-bottom: 5px;
+}
+
+.navigation {
+    color: white;
+    font-size: 15px;
+}
+
+.contentTitle {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: default;
+}
+
+.title {
+    position: relative;
+    font-size: 24px;
+    font-family: "Kaushan Script", cursive;
+    color: white;
+    user-select: none;
+}
+
+.contentNotSession {
+    position: relative;
+    display: flex;
+    gap: 1.5vw;
+    margin-right: 40px;
+}
+
+.contentLogin {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid white;
+    padding: 7px;
+    padding-left: 17px;
+    padding-right: 17px;
+    border-radius: 5px;
+}
+
+.login {
+    color: white;
+    font-size: 14px;
+    font-weight: 500;
+    user-select: none;
+}
+
+.contentLogout {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid white;
+    padding: 7px;
+    padding-left: 17px;
+    padding-right: 17px;
+    border-radius: 5px;
+}
+
+.logout {
+    color: white;
+    font-size: 14px;
+    font-weight: 500;
+    user-select: none;
+}
+
+.contentRegister {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid var(--CLR-02);
+    background-color: var(--CLR-02);
+    padding: 7px;
+    padding-left: 17px;
+    padding-right: 17px;
+    border-radius: 5px;
+}
+
+.register {
+    color: var(--CLR-01);
+    font-size: 14px;
+    font-weight: 500;
+    user-select: none;
+}
