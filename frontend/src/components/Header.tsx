@@ -10,28 +10,7 @@ const Header = async () => {
     return (
         <div className={css.container}>
             <div className={css.content}>
-                <Link className={css.link} href="/">
-                    <div className={css.contentNavigation}>
-                        <div className={css.navigation}>News</div>
-                    </div>
-                </Link>
-                <Link className={css.link} href="/catalog">
-                    <div className={css.contentNavigation}>
-                        <div className={css.navigation}>Catalog</div>
-                    </div>
-                </Link>
-                {session && (
-                    <Link className={css.link} href="/recorded">
-                        <div className={css.contentNavigation}>
-                            <div className={css.navigation}>Recorded</div>
-                        </div>
-                    </Link>
-                )}
-                <Link className={css.link} href="/about">
-                    <div className={css.contentNavigation}>
-                        <div className={css.navigation}>About us</div>
-                    </div>
-                </Link>
+                <input className={css.search} placeholder='Chercher votre comics'></input>
             </div>
             <div className={css.contentTitle}>
                 <div className={css.title}>Love Comics</div>

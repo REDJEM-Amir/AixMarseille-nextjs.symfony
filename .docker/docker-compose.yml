@@ -13,7 +13,7 @@ services:
       - postgres_data:/var/lib/postgresql/data
     restart: always
   motus-backend:
-    image: ghcr.io/redjem-amir/library/backend:1.0
+    image: ghcr.io/redjem-amir/library/backend:0.1
     ports:
       - "5601:5601"
     environment:
@@ -25,7 +25,7 @@ services:
       AUTH_ISSUER: ${AUTH_ISSUER}
     restart: always
   motus-frontend:
-    image: ghcr.io/redjem-amir/library/frontend:1.0
+    image: ghcr.io/redjem-amir/library/frontend:0.1
     ports:
       - "5600:5600"
     environment:
