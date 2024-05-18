@@ -1,4 +1,3 @@
-
 ###> symfony/framework-bundle ###
 /.env
 /.env.local
@@ -9,64 +8,3 @@
 /var/
 /vendor/
 ###< symfony/framework-bundle ###
-
-### Symfony ###
-# Cache et logs (Symfony3)
-/var/
-!/var/cache
-/var/cache/*
-!/var/logs
-/var/logs/*
-!/var/sessions
-/var/sessions/*
-!var/.gitkeep
-
-# Cache et logs (Symfony4+)
-/var/cache/*
-/var/log/*
-/var/session/*
-
-# Fichiers et dossiers de paramètres
-/app/config/parameters.yml
-/app/config/parameters.ini
-/config/packages/dev/
-/config/packages/test/
-/config/packages/local/
-/config/services_local.yaml
-/config/parameters_local.yaml
-
-# Fichiers de build
-/bin/
-/vendor/
-/web/bundles/
-
-# Fichiers de dépendances
-/composer.phar
-/composer.lock
-/vendor/
-node_modules/
-npm-debug.log
-yarn-error.log
-
-# Fichiers IDE et éditeurs
-/.idea/
-/.vscode/
-*.swp
-*~
-.DS_Store
-
-# Autres fichiers spécifiques au système d'exploitation
-Thumbs.db
-ehthumbs.db
-Icon?
-
-# Fichiers d'exportation et de sauvegarde
-/backup/
-/export/
-
-# Fichiers temporaires
-/tmp/*
-
-# Fichiers de tests
-/phpunit.xml
-/phpunit.xml.dist
