@@ -24,6 +24,12 @@ symfony server:start --port=5601
 php bin/console make:entity
 ```
 
+## Création d'un nouveau controlleur
+
+``` bash
+php bin/console make:controller
+```
+
 ## Migration de la base de donnée
 
 ``` bash
