@@ -11,7 +11,7 @@ use App\Repository\AccountRepository;
 class AccountController extends AbstractController
 {
     #[Route('/api/accounts/findAll', name: 'app_account')]
-    public function index(AccountRepository $accountRepository): JsonResponse
+    public function findAll(AccountRepository $accountRepository): JsonResponse
     {
         $accounts = $accountRepository->findAll();
 
