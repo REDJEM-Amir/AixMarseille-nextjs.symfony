@@ -37,6 +37,10 @@ php bin/console make:migration
 php bin/console doctrine:migrations:migrate
 ```
 
+``` bash
+php bin/console doctrine:schema:update --force
+```
+
 ## Vérifier la connexion a la base de donnée 
 
 ``` bash

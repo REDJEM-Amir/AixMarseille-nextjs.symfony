@@ -16,10 +16,10 @@ class Comics
     #[ORM\Column]
     private string $title;
 
-    #[ORM\Column(type: 'blob')]
+    #[ORM\Column(type: 'text')]
     private $picture;
 
-    #[ORM\Column(type: 'blob')]
+    #[ORM\Column(type: 'text')]
     private $pdf;
 
     #[ORM\Column(type: 'datetime')]
@@ -51,7 +51,7 @@ class Comics
         return $this->picture;
     }
 
-    public function setPicture($picture): self
+    public function setPicture(string $picture): self
     {
         $this->picture = $picture;
         return $this;
@@ -62,7 +62,7 @@ class Comics
         return $this->pdf;
     }
 
-    public function setPdf($pdf): self
+    public function setPdf(string $pdf): self
     {
         $this->pdf = $pdf;
         return $this;

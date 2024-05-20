@@ -9,19 +9,16 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
-use App\Service\ComicService;
 use Psr\Log\LoggerInterface;
 
 class ComicController extends AbstractController
 {
-    private $comicService;
     private $comicsRepository;
     private $entityManager;
     private $logger;
 
-    public function __construct(ComicService $comicService, ComicsRepository $comicsRepository, EntityManagerInterface $entityManager, LoggerInterface $logger)
+    public function __construct(ComicsRepository $comicsRepository, EntityManagerInterface $entityManager, LoggerInterface $logger)
     {
-        $this->comicService = $comicService;
         $this->comicsRepository = $comicsRepository;
         $this->entityManager = $entityManager;
         $this->logger = $logger;
@@ -62,22 +59,21 @@ class ComicController extends AbstractController
     #[Route('/api/comics/upload', name: 'comic_upload', methods: ['POST'])]
     public function upload(Request $request): JsonResponse
     {
+        ini_set('memory_limit', '2G');
+
         $this->logger->info('Upload endpoint hit');
 
-        $file = $request->files->get('pdf');
-        $title = $request->request->get('title');
+        $data = json_decode($request->getContent(), true);
+        $title = $data['title'] ?? null;
+        $pdfBase64 = $data['pdf'] ?? null;
+        $imageBase64 = $data['picture'] ?? null;
 
-        $this->logger->info('Title: ' . $title);
-        $this->logger->info('File: ' . ($file ? $file->getClientOriginalName() : 'No file uploaded'));
-
-        if ($file && $title) {
+        if ($pdfBase64 && $title && $imageBase64) {
             try {
-                $paths = $this->comicService->handleUpload($file);
-
                 $comic = new Comics();
                 $comic->setTitle($title);
-                $comic->setPdf($paths['pdf']);
-                $comic->setPicture($paths['picture']);
+                $comic->setPdf($pdfBase64);
+                $comic->setPicture($imageBase64);
 
                 $this->entityManager->persist($comic);
                 $this->entityManager->flush();
