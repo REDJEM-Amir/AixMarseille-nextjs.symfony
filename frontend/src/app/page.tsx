@@ -11,13 +11,6 @@ type Comic = {
   uploadDate: string
 };
 
-type ComicsResponse = {
-  data: Comic[],
-  total: number,
-  current_page: number,
-  total_pages: number
-};
-
 export default function Page() {
   const [comics, setComics] = useState<Comic[]>([]);
   const [total, setTotal] = useState(0);
