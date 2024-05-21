@@ -1,10 +1,10 @@
 import type { Metadata } from "next";
 import "../styles/globals.css";
 import Header from "@/components/Header";
+import { UserProvider } from "@auth0/nextjs-auth0/client";
 
 export const metadata: Metadata = {
-  title: "Votre Library en ligne",
-  description: "Accès totalement gratuit",
+  title: "Accueil - LoveComics"
 };
 
 export default function RootLayout({
@@ -14,8 +14,12 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="fr">
-      {/* <Header /> */}
-      <body>{children}</body>
+      <body>
+        <UserProvider>
+          <Header />
+        </UserProvider>
+        {children}
+      </body>
     </html>
   );
 }

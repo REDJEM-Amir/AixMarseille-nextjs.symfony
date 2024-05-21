@@ -1,21 +1,18 @@
-'use client'
+'use client';
 
 import React from 'react'
 import css from '@/styles/header.module.css'
 import Link from 'next/link';
-import { getSession } from '@auth0/nextjs-auth0';
+import { useUser } from '@auth0/nextjs-auth0/client';
 
-const Header = async () => {
-    const session = await getSession();
+const Header = () => {
+    const { user } = useUser();
     return (
         <div className={css.container}>
-            <div className={css.content}>
-                <input className={css.search} placeholder='Chercher votre comics'></input>
-            </div>
             <div className={css.contentTitle}>
                 <div className={css.title}>Love Comics</div>
             </div>
-            {session ? (
+            {user ? (
                 <div className={css.contentSession}>
                     <Link className={css.link} href="/api/auth/logout">
                         <div className={css.contentLogout}>

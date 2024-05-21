@@ -1,9 +1,7 @@
 .container {
     position: relative;
     display: flex;
-    padding-top: 2vw;
-    padding-left: 10vw;
-    padding-right: 10vw;
+    flex-direction: column;
 }
 
 .content {

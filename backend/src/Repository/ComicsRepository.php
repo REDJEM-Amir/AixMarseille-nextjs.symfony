@@ -32,4 +32,21 @@ class ComicsRepository extends ServiceEntityRepository
 
         return new Paginator($query, true);
     }
+
+    public function findAllPaginatedAndFilteredByType(int $page, int $limit, ?string $type)
+    {
+        $queryBuilder = $this->createQueryBuilder('c');
+
+        if ($type) {
+            $queryBuilder->andWhere('c.type = :type')
+                ->setParameter('type', $type);
+        }
+
+        $queryBuilder->setFirstResult(($page - 1) * $limit)
+            ->setMaxResults($limit);
+
+        $paginator = new Paginator($queryBuilder, $fetchJoinCollection = true);
+
+        return $paginator;
+    }
 }

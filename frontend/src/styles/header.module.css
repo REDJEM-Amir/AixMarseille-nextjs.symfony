@@ -1,18 +1,12 @@
-
-.link {
-    text-decoration-line: none;
-    text-decoration: none;
-    text-decoration-style: none;
-}
-
 .container {
-    position: relative;
+    position: fixed;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background-color: #0e1114;
+    background: linear-gradient(0deg, transparent, rgb(20, 20, 20));
     width: 100%;
     height: 60px;
+    z-index: 10;
 }
 
 .content {
@@ -41,14 +35,15 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    margin-left: 20px;
     cursor: default;
 }
 
 .title {
     position: relative;
-    font-size: 24px;
+    font-size: 28px;
     font-family: "Kaushan Script", cursive;
-    color: white;
+    color: rgb(230, 9, 20);
     user-select: none;
 }
 
@@ -115,4 +110,10 @@
     font-size: 14px;
     font-weight: 500;
     user-select: none;
+}
+
+.link {
+    text-decoration-line: none;
+    text-decoration: none;
+    text-decoration-style: none;
 }

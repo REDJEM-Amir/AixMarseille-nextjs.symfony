@@ -33,8 +33,7 @@ const ViewComic = ({
 
     const fetchData = async () => {
         try {
-            const response = await axios.get(`/api/comics/${params.id}`);
-            console.log(response.data);
+            const response = await axios.get(`/api/comics/${params.id}?id=${params.id}`);
             setViewComic(response.data);
         } catch (error) {
             setError('Failed to load comic');
@@ -46,7 +45,6 @@ const ViewComic = ({
     };
 
     const onDocumentLoadError = (error: Error): void => {
-        console.error('Failed to load PDF file:', error);
         setError('Failed to load PDF file.');
     };
 

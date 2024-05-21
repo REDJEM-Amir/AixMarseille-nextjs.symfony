@@ -3,9 +3,11 @@
 import React, { ChangeEvent, FormEvent, useState } from 'react';
 import axios from 'axios';
 import { Snackbar, Alert } from '@mui/material';
+import css from '@/styles/uploadform.module.css'
 
 const UploadForm: React.FC = () => {
     const [title, setTitle] = useState<string>('');
+    const [type, setType] = useState<string>('');
     const [pdfFile, setPdfFile] = useState<File | null>(null);
     const [imageFile, setImageFile] = useState<File | null>(null);
     const [progress, setProgress] = useState(0);
@@ -28,6 +30,11 @@ const UploadForm: React.FC = () => {
 
         if (!title) {
             setSnackbar({ open: true, message: 'Please enter a title.', severity: 'warning' });
+            return;
+        }
+
+        if (!type) {
+            setSnackbar({ open: true, message: 'Please enter a type.', severity: 'warning' });
             return;
         }
 
@@ -60,6 +67,7 @@ const UploadForm: React.FC = () => {
 
             const body = {
                 title,
+                type,
                 picture: imageBase64.split(',')[1],
                 pdf: pdfBase64.split(',')[1],
             };
@@ -90,8 +98,8 @@ const UploadForm: React.FC = () => {
     };
 
     return (
-        <div>
-            <form onSubmit={handleSubmit}>
+        <div className={css.containerForm}>
+            <form className={css.contentForm} onSubmit={handleSubmit}>
                 <div>
                     <label htmlFor="title">Title:</label>
                     <input
@@ -99,6 +107,16 @@ const UploadForm: React.FC = () => {
                         id="title"
                         value={title}
                         onChange={(e) => setTitle(e.target.value)}
+                        required
+                    />
+                </div>
+                <div>
+                    <label htmlFor="type">Type:</label>
+                    <input
+                        type="text"
+                        id="type"
+                        value={type}
+                        onChange={(e) => setType(e.target.value)}
                         required
                     />
                 </div>

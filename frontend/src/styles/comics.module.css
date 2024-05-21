@@ -1,0 +1,47 @@
+.containerComics {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    padding-left: 5vw;
+    padding-bottom: 20px;
+}
+
+.contentTItle {
+    position: relative;
+    display: flex;
+    padding-top: 15px;
+    padding-bottom: 10px;
+}
+
+.title {
+    color: white;
+    font-size: 15px;
+}
+
+.contentComics {
+    position: relative;
+    display: flex;
+    overflow-x: auto;
+    gap: 5px;
+}
+
+.comics {
+    position: relative;
+    display: flex;
+    align-items: center;
+    width: 250px;
+    height: 140px;
+    border-radius: 1px;
+    overflow: hidden;
+}
+
+.imgComics {
+    position: absolute;
+    width: 100%;
+}
+
+.link {
+    text-decoration-line: none;
+    text-decoration: none;
+    text-decoration-style: none;
+}

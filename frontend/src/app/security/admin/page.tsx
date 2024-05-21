@@ -3,7 +3,7 @@ import css from "@/styles/pageAdmin.module.css"
 
 export default function Page() {
   return (
-    <div className={css.container}>
+    <div className={css.containerAdmin}>
         <UploadForm />
     </div>
   );
