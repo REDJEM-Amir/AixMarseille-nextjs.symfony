@@ -25,22 +25,6 @@ jobs:
           username: redjem-amir
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Build and push BackEnd
-        uses: docker/build-push-action@v5
-        with:
-          context: ./backend
-          file: ./backend/Dockerfile
-          push: true
-          tags: ghcr.io/redjem-amir/library/backend:1.0
-      
-      - name: Build and push FrontEnd
-        uses: docker/build-push-action@v5
-        with:
-          context: ./frontend
-          file: ./frontend/Dockerfile
-          push: true
-          tags: ghcr.io/redjem-amir/library/frontend:1.0
-
       - name: Send docker-compose
         uses: wlixcc/SFTP-Deploy-Action@v1.2.1
         with:
@@ -49,10 +33,10 @@ jobs:
           port: ${{ secrets.PORT }}
           ssh_private_key: ${{ secrets.SSH_PRIVATE_KEY }}
           local_path: ./.docker/docker-compose.yml
-          remote_path: /var/www/library
+          remote_path: /var/www/motus
           args: '-o ConnectTimeout=30' 
-      
-      - name: Run All docker-compose
+
+      - name: Run PostgreSQL
         uses: appleboy/ssh-action@master
         with:
           host: ${{ secrets.SERVER }}
@@ -60,27 +44,72 @@ jobs:
           port: ${{ secrets.PORT }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
-            cd /var/www/library
+            cd /var/www/motus
             export POSTGRES_DB=${{ secrets.POSTGRES_DB }}
             export POSTGRES_USER=${{ secrets.POSTGRES_USER }}
             export POSTGRES_PASSWORD=${{ secrets.POSTGRES_PASSWORD }}
+            docker login ghcr.io -u redjem-amir -p '${{ secrets.GITHUB_TOKEN }}'
+            docker compose up -d motus-db
+            docker image prune -f
+
+      - name: Build Image Docker Backend
+        uses: docker/build-push-action@v5
+        with:
+          context: ./backend
+          file: ./backend/Dockerfile
+          push: true
+          tags: ghcr.io/redjem-amir/motus/backend:latest
+      
+      - name: Run Docker Backend
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.SERVER }}
+          username: ${{ secrets.USERNAME }}
+          port: ${{ secrets.PORT }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          script: |
+            cd /var/www/motus
+            export POSTGRES_DB=${{ secrets.POSTGRES_DB }}
+            export POSTGRES_USER=${{ secrets.POSTGRES_USER }}
+            export POSTGRES_PASSWORD=${{ secrets.POSTGRES_PASSWORD }}
+            export POSTGRES_HOST=${{ secrets.POSTGRES_HOST }}
             export AUTH_JWKURI=${{ secrets.AUTH_JWKURI }}
             export AUTH_AUDIENCE=${{ secrets.AUTH_AUDIENCE }}
             export AUTH_ISSUER=${{ secrets.AUTH_ISSUER }}
+            docker login ghcr.io -u redjem-amir -p '${{ secrets.GITHUB_TOKEN }}'
+            docker compose down motus-backend || true
+            docker image prune -f
+            docker compose pull motus-backend
+            docker compose up -d motus-backend
+
+      - name: Build Image Docker FrontEnd
+        uses: docker/build-push-action@v5
+        with:
+          context: ./frontend
+          file: ./frontend/Dockerfile
+          push: true
+          tags: ghcr.io/redjem-amir/motus/frontend:latest
+          network: host
+          build-args: |
+            API_BACKEND=${{ secrets.API_BACKEND }}
+
+      - name: Run Docker FrontEnd
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.SERVER }}
+          username: ${{ secrets.USERNAME }}
+          port: ${{ secrets.PORT }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          script: |
+            cd /var/www/motus
             export AUTH0_SECRET=${{ secrets.AUTH0_SECRET }}
             export AUTH0_BASE_URL=${{ secrets.AUTH0_BASE_URL }}
             export AUTH0_ISSUER_BASE_URL=${{ secrets.AUTH0_ISSUER_BASE_URL }}
             export AUTH0_CLIENT_ID=${{ secrets.AUTH0_CLIENT_ID }}
             export AUTH0_CLIENT_SECRET=${{ secrets.AUTH0_CLIENT_SECRET }}
-            if docker ps -f "name=postgres" -f "status=running" | grep -q '5432->5432'; then
-              echo "PostgreSQL container is already running. Setting up the new database if not exists..."
-              docker exec postgres psql -U ${POSTGRES_USER} -c "SELECT 1 FROM pg_database WHERE datname = '${POSTGRES_DB}'" | grep -q 1 || docker exec postgres psql -U ${POSTGRES_USER} -c "CREATE DATABASE ${POSTGRES_DB}"
-              echo "Starting or restarting other services..."
-              docker-compose up -d library-backend library-frontend
-            else
-              echo "PostgreSQL container is not running. Starting all services..."
-              docker login ghcr.io -u redjem-amir -p '${{ secrets.GITHUB_TOKEN }}'
-              docker-compose down
-              docker-compose pull
-              docker-compose up -d
-            fi
+            export API_BACKEND=${{ secrets.API_BACKEND }}
+            docker login ghcr.io -u redjem-amir -p '${{ secrets.GITHUB_TOKEN }}'
+            docker compose down motus-frontend || true
+            docker image prune -f
+            docker compose pull motus-frontend
+            docker compose up -d motus-frontend

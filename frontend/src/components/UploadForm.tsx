@@ -2,12 +2,24 @@
 
 import React, { ChangeEvent, FormEvent, useState } from 'react';
 import axios from 'axios';
-import { Snackbar, Alert } from '@mui/material';
+import { Snackbar, Alert, Button, styled, TextField } from '@mui/material';
 import css from '@/styles/uploadform.module.css'
+import CloudUploadIcon from '@mui/icons-material/CloudUpload';
+
+const VisuallyHiddenInput = styled('input')({
+    clip: 'rect(0 0 0 0)',
+    clipPath: 'inset(50%)',
+    height: 1,
+    overflow: 'hidden',
+    position: 'absolute',
+    bottom: 0,
+    left: 0,
+    whiteSpace: 'nowrap',
+    width: 1,
+});
 
 const UploadForm: React.FC = () => {
     const [title, setTitle] = useState<string>('');
-    const [type, setType] = useState<string>('');
     const [pdfFile, setPdfFile] = useState<File | null>(null);
     const [imageFile, setImageFile] = useState<File | null>(null);
     const [progress, setProgress] = useState(0);
@@ -30,11 +42,6 @@ const UploadForm: React.FC = () => {
 
         if (!title) {
             setSnackbar({ open: true, message: 'Please enter a title.', severity: 'warning' });
-            return;
-        }
-
-        if (!type) {
-            setSnackbar({ open: true, message: 'Please enter a type.', severity: 'warning' });
             return;
         }
 
@@ -67,14 +74,13 @@ const UploadForm: React.FC = () => {
 
             const body = {
                 title,
-                type,
                 picture: imageBase64.split(',')[1],
                 pdf: pdfBase64.split(',')[1],
             };
 
             setSnackbar({ open: true, message: 'Starting upload...', severity: 'info' });
 
-            const response = await axios.post('/api/comics/upload', body, {
+            await axios.post('/api/comics/upload', body, {
                 headers: {
                     'Content-Type': 'application/json',
                 },
@@ -100,47 +106,48 @@ const UploadForm: React.FC = () => {
     return (
         <div className={css.containerForm}>
             <form className={css.contentForm} onSubmit={handleSubmit}>
-                <div>
-                    <label htmlFor="title">Title:</label>
-                    <input
-                        type="text"
-                        id="title"
-                        value={title}
-                        onChange={(e) => setTitle(e.target.value)}
-                        required
-                    />
-                </div>
-                <div>
-                    <label htmlFor="type">Type:</label>
-                    <input
-                        type="text"
-                        id="type"
-                        value={type}
-                        onChange={(e) => setType(e.target.value)}
-                        required
-                    />
-                </div>
-                <div>
-                    <label htmlFor="pdf">Upload PDF:</label>
-                    <input
+                <TextField
+                    id="title"
+                    type="text"
+                    label="Title"
+                    value={title}
+                    onChange={(e) => setTitle(e.target.value)}
+                    variant="outlined"
+                    required
+                />
+                <Button
+                    component="label"
+                    role={undefined}
+                    variant="contained"
+                    tabIndex={-1}
+                    startIcon={<CloudUploadIcon />}
+                >
+                    Upload PDF Comics
+                    <VisuallyHiddenInput
                         type="file"
                         id="pdf"
                         accept="application/pdf"
                         onChange={handleFileChange}
                         required
                     />
-                </div>
-                <div>
-                    <label htmlFor="image">Upload Image:</label>
-                    <input
+                </Button>
+                <Button
+                    component="label"
+                    role={undefined}
+                    variant="contained"
+                    tabIndex={-1}
+                    startIcon={<CloudUploadIcon />}
+                >
+                    Upload Image Comics
+                    <VisuallyHiddenInput
                         type="file"
                         id="image"
                         accept="image/*"
                         onChange={handleFileChange}
                         required
                     />
-                </div>
-                <button type="submit">Submit</button>
+                </Button>
+                <Button variant="outlined" type="submit">Ajouter</Button>
             </form>
             {pdfFile && <progress value={progress} max="100" />}
             <Snackbar open={snackbar.open} autoHideDuration={6000} onClose={handleCloseSnackbar}>

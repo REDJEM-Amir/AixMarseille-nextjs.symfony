@@ -1,59 +1,7 @@
-.container {
+.containerPage {
     position: relative;
     display: flex;
-    flex-direction: column;
-}
-
-.content {
-    position: relative;
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    justify-content: center;
-    gap: 2vw;
-}
-
-.card {
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    padding: 1vw;
-    gap: 1vw;
-    border-radius: 8px;
-    box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
-    cursor: pointer;
-    transition: 0.5s;
-}
-
-.card:hover {
-    transition: 0.5s;
-    transform: scale(105%);
-}
-
-.img {
-    position: relative;
-    width: 200px;
-    height: 300px;
-    border-radius: 8px;
-}
-
-.title {
-    color: #0e1114;
-    font-weight: 500;
-    font-size: 14px;
-    text-align: center;
-    user-select: none;
-}
-
-.contentTextTotal {
-    display: flex;
-    position: relative;
-    align-items: center;
-    justify-content: center;
+    height: 100%;
     width: 100%;
-    height: 20vw;
-}
-
-.textTotal {
-   
+    flex-direction: column;
 }

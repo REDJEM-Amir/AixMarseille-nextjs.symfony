@@ -1,33 +1,11 @@
 .container {
-    position: fixed;
+    position: relative;
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
     align-items: center;
-    background: linear-gradient(0deg, transparent, rgb(20, 20, 20));
     width: 100%;
     height: 60px;
     z-index: 10;
-}
-
-.content {
-    position: relative;
-    display: flex;
-    gap: 25px;
-    margin-left: 40px;
-}
-
-.contentNavigation {
-    position: relative;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-bottom: 1px solid white;
-    padding-bottom: 5px;
-}
-
-.navigation {
-    color: white;
-    font-size: 15px;
 }
 
 .contentTitle {
@@ -35,7 +13,6 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    margin-left: 20px;
     cursor: default;
 }
 
@@ -43,77 +20,6 @@
     position: relative;
     font-size: 28px;
     font-family: "Kaushan Script", cursive;
-    color: rgb(230, 9, 20);
+    color: black;
     user-select: none;
-}
-
-.contentNotSession {
-    position: relative;
-    display: flex;
-    gap: 1.5vw;
-    margin-right: 40px;
-}
-
-.contentLogin {
-    position: relative;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border: 1px solid white;
-    padding: 7px;
-    padding-left: 17px;
-    padding-right: 17px;
-    border-radius: 5px;
-}
-
-.login {
-    color: white;
-    font-size: 14px;
-    font-weight: 500;
-    user-select: none;
-}
-
-.contentLogout {
-    position: relative;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border: 1px solid white;
-    padding: 7px;
-    padding-left: 17px;
-    padding-right: 17px;
-    border-radius: 5px;
-}
-
-.logout {
-    color: white;
-    font-size: 14px;
-    font-weight: 500;
-    user-select: none;
-}
-
-.contentRegister {
-    position: relative;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border: 1px solid white;
-    background-color: white;
-    padding: 7px;
-    padding-left: 17px;
-    padding-right: 17px;
-    border-radius: 5px;
-}
-
-.register {
-    color: var(--CLR-01);
-    font-size: 14px;
-    font-weight: 500;
-    user-select: none;
-}
-
-.link {
-    text-decoration-line: none;
-    text-decoration: none;
-    text-decoration-style: none;
 }

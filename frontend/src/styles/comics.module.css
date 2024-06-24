@@ -2,25 +2,14 @@
     position: relative;
     display: flex;
     flex-direction: column;
-    padding-left: 5vw;
+    height: 100%;
     padding-bottom: 20px;
-}
-
-.contentTItle {
-    position: relative;
-    display: flex;
-    padding-top: 15px;
-    padding-bottom: 10px;
-}
-
-.title {
-    color: white;
-    font-size: 15px;
 }
 
 .contentComics {
     position: relative;
     display: flex;
+    justify-content: center;
     overflow-x: auto;
     gap: 5px;
 }
@@ -29,8 +18,8 @@
     position: relative;
     display: flex;
     align-items: center;
-    width: 250px;
-    height: 140px;
+    width: 150px;
+    height: 250px;
     border-radius: 1px;
     overflow: hidden;
 }

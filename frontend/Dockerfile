@@ -3,9 +3,14 @@
 #
 FROM node:alpine as builder
 
+ARG API_BACKEND
+ENV API_BACKEND=${API_BACKEND}
+
+RUN npm install -g npm@latest
+
 WORKDIR /app
 
-COPY package*.json ./
+COPY package.json ./
 RUN npm install
 
 COPY . .
@@ -13,6 +18,8 @@ COPY . .
 RUN npm run build
 
 FROM node:alpine
+
+RUN npm install -g npm@latest
 
 WORKDIR /app
 

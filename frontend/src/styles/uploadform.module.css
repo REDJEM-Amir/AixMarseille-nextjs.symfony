@@ -1,8 +1,14 @@
 .containerForm {
     position: relative;
-    
+    display: flex;
+    flex-direction: column;
+    height: auto;
 }
 
 .contentForm {
     position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    height: auto;
 }

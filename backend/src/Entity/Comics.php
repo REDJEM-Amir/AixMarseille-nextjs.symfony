@@ -25,9 +25,6 @@ class Comics
     #[ORM\Column(type: 'datetime')]
     private \DateTime $uploadDate;
 
-    #[ORM\Column(type: 'string')]
-    private $type;
-
     public function __construct()
     {
         $this->uploadDate = new \DateTime();
@@ -82,17 +79,6 @@ class Comics
         return $this;
     }
 
-    public function getType(): ?string
-    {
-        return $this->type;
-    }
-
-    public function setType(string $type): self
-    {
-        $this->type = $type;
-        return $this;
-    }
-
     public function toArray(): array
     {
         return [
@@ -111,7 +97,6 @@ class Comics
             'title' => $this->getTitle(),
             'picture' => $this->getPicture(),
             'uploadDate' => $this->getUploadDate()->format('Y-m-d H:i:s'),
-            'type' => $this->getType()
         ];
     }
 }

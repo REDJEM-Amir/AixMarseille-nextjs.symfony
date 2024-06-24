@@ -31,9 +31,8 @@ class ComicController extends AbstractController
 
         $page = $request->query->getInt('page', 1);
         $limit = 25;
-        $type = $request->query->get('type');
     
-        $paginator = $this->comicsRepository->findAllPaginatedAndFilteredByType($page, $limit, $type);
+        $paginator = $this->comicsRepository->findAllPaginatedAndFilteredByType($page, $limit);
     
         $data = array_map(function (Comics $comic) {
             return $comic->toSimpleArray();
@@ -70,15 +69,13 @@ class ComicController extends AbstractController
     
         $data = json_decode($request->getContent(), true);
         $title = $data['title'] ?? null;
-        $type = $data['type'] ?? null;
         $pdfBase64 = $data['pdf'] ?? null;
         $imageBase64 = $data['picture'] ?? null;
     
-        if ($pdfBase64 && $title && $imageBase64 && $type) {
+        if ($pdfBase64 && $title && $imageBase64) {
             try {
                 $comic = new Comics();
                 $comic->setTitle($title);
-                $comic->setType($type);
                 $comic->setPdf($pdfBase64);
                 $comic->setPicture($imageBase64);
     
