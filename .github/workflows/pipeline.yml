@@ -33,7 +33,7 @@ jobs:
           port: ${{ secrets.PORT }}
           ssh_private_key: ${{ secrets.SSH_PRIVATE_KEY }}
           local_path: ./.docker/docker-compose.yml
-          remote_path: /var/www/motus
+          remote_path: /var/www/library
           args: '-o ConnectTimeout=30' 
 
       - name: Run PostgreSQL
@@ -44,12 +44,12 @@ jobs:
           port: ${{ secrets.PORT }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
-            cd /var/www/motus
+            cd /var/www/library
             export POSTGRES_DB=${{ secrets.POSTGRES_DB }}
             export POSTGRES_USER=${{ secrets.POSTGRES_USER }}
             export POSTGRES_PASSWORD=${{ secrets.POSTGRES_PASSWORD }}
             docker login ghcr.io -u redjem-amir -p '${{ secrets.GITHUB_TOKEN }}'
-            docker compose up -d motus-db
+            docker compose up -d library-db
             docker image prune -f
 
       - name: Build Image Docker Backend
@@ -58,7 +58,7 @@ jobs:
           context: ./backend
           file: ./backend/Dockerfile
           push: true
-          tags: ghcr.io/redjem-amir/motus/backend:latest
+          tags: ghcr.io/redjem-amir/library/backend:latest
       
       - name: Run Docker Backend
         uses: appleboy/ssh-action@master
@@ -68,7 +68,7 @@ jobs:
           port: ${{ secrets.PORT }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
-            cd /var/www/motus
+            cd /var/www/library
             export POSTGRES_DB=${{ secrets.POSTGRES_DB }}
             export POSTGRES_USER=${{ secrets.POSTGRES_USER }}
             export POSTGRES_PASSWORD=${{ secrets.POSTGRES_PASSWORD }}
@@ -77,10 +77,10 @@ jobs:
             export AUTH_AUDIENCE=${{ secrets.AUTH_AUDIENCE }}
             export AUTH_ISSUER=${{ secrets.AUTH_ISSUER }}
             docker login ghcr.io -u redjem-amir -p '${{ secrets.GITHUB_TOKEN }}'
-            docker compose down motus-backend || true
+            docker compose down library-backend || true
             docker image prune -f
-            docker compose pull motus-backend
-            docker compose up -d motus-backend
+            docker compose pull library-backend
+            docker compose up -d library-backend
 
       - name: Build Image Docker FrontEnd
         uses: docker/build-push-action@v5
@@ -88,7 +88,7 @@ jobs:
           context: ./frontend
           file: ./frontend/Dockerfile
           push: true
-          tags: ghcr.io/redjem-amir/motus/frontend:latest
+          tags: ghcr.io/redjem-amir/library/frontend:latest
           network: host
           build-args: |
             API_BACKEND=${{ secrets.API_BACKEND }}
@@ -101,7 +101,7 @@ jobs:
           port: ${{ secrets.PORT }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
-            cd /var/www/motus
+            cd /var/www/library
             export AUTH0_SECRET=${{ secrets.AUTH0_SECRET }}
             export AUTH0_BASE_URL=${{ secrets.AUTH0_BASE_URL }}
             export AUTH0_ISSUER_BASE_URL=${{ secrets.AUTH0_ISSUER_BASE_URL }}
@@ -109,7 +109,7 @@ jobs:
             export AUTH0_CLIENT_SECRET=${{ secrets.AUTH0_CLIENT_SECRET }}
             export API_BACKEND=${{ secrets.API_BACKEND }}
             docker login ghcr.io -u redjem-amir -p '${{ secrets.GITHUB_TOKEN }}'
-            docker compose down motus-frontend || true
+            docker compose down library-frontend || true
             docker image prune -f
-            docker compose pull motus-frontend
-            docker compose up -d motus-frontend
+            docker compose pull library-frontend
+            docker compose up -d library-frontend

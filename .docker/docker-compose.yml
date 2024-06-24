@@ -1,8 +1,8 @@
 version: '3.8'
 services:
-  motus-db:
+  library-db:
     image: postgres:latest
-    container_name: motus-postgres
+    container_name: library-postgres
     environment:
       POSTGRES_DB: ${POSTGRES_DB}
       POSTGRES_USER: ${POSTGRES_USER}
@@ -12,8 +12,8 @@ services:
     volumes:
       - postgres_data:/var/lib/postgresql/data
     restart: always
-  motus-backend:
-    image: ghcr.io/redjem-amir/motus/backend:latest
+  library-backend:
+    image: ghcr.io/redjem-amir/library/backend:latest
     ports:
       - "5601:5601"
     environment:
@@ -25,10 +25,10 @@ services:
       AUTH_AUDIENCE: ${AUTH_AUDIENCE}
       AUTH_ISSUER: ${AUTH_ISSUER}
     depends_on:
-      - motus-db
+      - library-db
     restart: always
-  motus-frontend:
-    image: ghcr.io/redjem-amir/motus/frontend:latest
+  library-frontend:
+    image: ghcr.io/redjem-amir/library/frontend:latest
     ports:
       - "5600:5600"
     environment:
