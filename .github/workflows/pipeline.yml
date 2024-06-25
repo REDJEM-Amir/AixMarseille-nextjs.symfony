@@ -62,7 +62,7 @@ jobs:
           port: ${{ secrets.PORT }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
-            docker exec -e PGPASSWORD=${{ secrets.POSTGRES_PASSWORD }} postgres -U ${{ secrets.POSTGRES_USER }} -tc "SELECT 1 FROM pg_database WHERE datname = '${{ secrets.POSTGRES_DB }}'" | grep -q 1 || docker exec -e PGPASSWORD=${{ secrets.POSTGRES_PASSWORD }} your_postgres_container_name psql -U ${{ secrets.POSTGRES_USER }} -c "CREATE DATABASE ${{ secrets.POSTGRES_DB }};"
+            docker exec -e PGPASSWORD=${{ secrets.POSTGRES_PASSWORD }} postgres -U ${{ secrets.POSTGRES_USER }} -tc "SELECT 1 FROM pg_database WHERE datname = '${{ secrets.POSTGRES_DB }}'" | grep -q 1 || docker exec -e PGPASSWORD=${{ secrets.POSTGRES_PASSWORD }} postgres psql -U ${{ secrets.POSTGRES_USER }} -c "CREATE DATABASE ${{ secrets.POSTGRES_DB }};"
             
       - name: Run Backend
         uses: appleboy/ssh-action@master 
