@@ -1,7 +1,6 @@
 # 🏡 Production Build
 FROM php:8.3.8-fpm-alpine
 
-# Use ARG instead of ENV for build-time variables
 ARG AUTH_JWKURI
 ARG AUTH_AUDIENCE
 ARG AUTH_ISSUER
@@ -33,7 +32,6 @@ RUN chown -R appuser:appgroup /app
 
 USER appuser
 
-# Create a temporary .env file with the environment variables
 RUN echo "AUTH_JWKURI=${AUTH_JWKURI}" > .env && \
     echo "AUTH_AUDIENCE=${AUTH_AUDIENCE}" >> .env && \
     echo "AUTH_ISSUER=${AUTH_ISSUER}" >> .env && \
@@ -43,7 +41,6 @@ RUN echo "AUTH_JWKURI=${AUTH_JWKURI}" > .env && \
 
 RUN composer install --no-dev --optimize-autoloader
 
-# Remove the temporary .env file
 RUN rm .env
 
 USER root
