@@ -75,6 +75,7 @@ jobs:
             export DATABASE_URL=${{ secrets.DATABASE_URL }}
             export APP_SECRET=${{ secrets.APP_SECRET }}
             export APP_ENV=${{ secrets.APP_ENV }}
+            php bin/console doctrine:migrations:migrate --no-interaction
             pm2 start "symfony server:start --port=5601" --name "api.library"
 
       - name: Run Frontend
