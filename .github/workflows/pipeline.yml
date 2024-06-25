@@ -33,6 +33,16 @@ jobs:
               echo "library does not exist"
             fi
 
+      - name: Clean library directory
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.SERVER }}
+          username: ${{ secrets.USERNAME }}
+          port: ${{ secrets.PORT }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          script: |
+            rm -rf /var/www/library/*
+            
       - name: Send Files to Server
         uses: wlixcc/SFTP-Deploy-Action@v1.2.1
         with:
@@ -68,13 +78,15 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
             cd ../../var/www/library/backend/
+            cat <<EOF > /var/www/library/backend/.env
+            AUTH_JWKURI=${{ secrets.AUTH_JWKURI }}
+            AUTH_AUDIENCE=${{ secrets.AUTH_AUDIENCE }}
+            AUTH_ISSUER=${{ secrets.AUTH_ISSUER }}
+            DATABASE_URL=${{ secrets.DATABASE_URL }}
+            APP_SECRET=${{ secrets.APP_SECRET }}
+            APP_ENV=${{ secrets.APP_ENV }}
+            EOF
             composer install
-            export AUTH_JWKURI=${{ secrets.AUTH_JWKURI }}
-            export AUTH_AUDIENCE=${{ secrets.AUTH_AUDIENCE }}
-            export AUTH_ISSUER=${{ secrets.AUTH_ISSUER }}
-            export DATABASE_URL=${{ secrets.DATABASE_URL }}
-            export APP_SECRET=${{ secrets.APP_SECRET }}
-            export APP_ENV=${{ secrets.APP_ENV }}
             php bin/console doctrine:migrations:migrate --no-interaction
             pm2 start "symfony server:start --port=5601" --name "api.library"
 
