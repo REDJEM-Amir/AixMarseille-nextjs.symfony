@@ -1,27 +1,17 @@
-FROM php:8.2-fpm
+# 🏡 Production Build
+FROM php:8.3.8-fpm-alpine
 
-RUN apt-get update && apt-get install -y \
-    git \
-    unzip \
-    libpq-dev \
-    libicu-dev \
-    libonig-dev \
-    libzip-dev \
-    zip \
-    && docker-php-ext-install pdo pdo_mysql intl mbstring zip opcache
+RUN apk add --no-cache bash git icu-dev zip unzip libzip-dev oniguruma-dev \
+    && docker-php-ext-install intl mbstring opcache pdo pdo_mysql zip
 
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
-WORKDIR /var/www/symfony
-
-COPY php.ini /usr/local/etc/php/php.ini
+WORKDIR /app
 
 COPY . .
 
-RUN composer install --no-scripts --no-interaction --optimize-autoloader
+RUN composer install --no-dev --optimize-autoloader
 
-RUN chown -R www-data:www-data /var/www/symfony/var
+EXPOSE 5601
 
-EXPOSE 9000
-
-CMD ["php-fpm"]
+CMD ["symfony", "server:start", "--port=5601", "--no-interaction", "--ansi"]
