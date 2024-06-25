@@ -59,7 +59,14 @@ jobs:
           file: ./backend/Dockerfile
           push: true
           tags: ghcr.io/redjem-amir/library/backend:latest
-      
+          build-args: |
+            AUTH_JWKURI=${{ secrets.AUTH_JWKURI }}
+            AUTH_AUDIENCE=${{ secrets.AUTH_AUDIENCE }}
+            AUTH_ISSUER=${{ secrets.AUTH_ISSUER }}
+            DATABASE_URL=${{ secrets.DATABASE_URL }}
+            APP_SECRET=${{ secrets.APP_SECRET }}
+            APP_ENV=${{ secrets.APP_ENV }}
+
       - name: Run Docker Backend
         uses: appleboy/ssh-action@master
         with:
