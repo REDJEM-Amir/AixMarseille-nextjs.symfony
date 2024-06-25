@@ -14,6 +14,8 @@ WORKDIR /app
 
 COPY --chown=appuser:appgroup . .
 
+RUN chown -R appuser:appgroup /app
+
 USER appuser
 
 RUN composer install --no-dev --optimize-autoloader
