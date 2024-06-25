@@ -1,37 +1,27 @@
-FROM php:8.2-fpm-alpine
+FROM php:8.2-fpm
 
-# Install system dependencies
-RUN apk add --no-cache \
+RUN apt-get update && apt-get install -y \
     git \
     unzip \
+    libpq-dev \
+    libicu-dev \
+    libonig-dev \
     libzip-dev \
-    libpng-dev \
-    icu-dev \
-    oniguruma-dev \
-    bash \
-    postgresql-dev \
-    && docker-php-ext-install pdo pdo_pgsql zip intl mbstring gd
+    zip \
+    && docker-php-ext-install pdo pdo_mysql intl mbstring zip opcache
 
-# Install Composer
-COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
+COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
-# Set working directory
-WORKDIR /var/www/html
+WORKDIR /var/www/symfony
 
-# Copy the composer files
-COPY composer.json composer.lock ./
+COPY php.ini /usr/local/etc/php/php.ini
 
-# Allow Composer to run as root
-ENV COMPOSER_ALLOW_SUPERUSER 1
-
-# Install PHP dependencies
-RUN composer install
-
-# Copy the rest of the application code
 COPY . .
 
-# Expose the port
-EXPOSE 5601
+RUN composer install --no-scripts --no-interaction --optimize-autoloader
 
-# Start PHP-FPM server
+RUN chown -R www-data:www-data /var/www/symfony/var
+
+EXPOSE 9000
+
 CMD ["php-fpm"]
