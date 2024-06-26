@@ -6,6 +6,7 @@ import { Document, Page, pdfjs } from 'react-pdf';
 import '@react-pdf-viewer/core/lib/styles/index.css';
 import '@react-pdf-viewer/default-layout/lib/styles/index.css';
 import css from '@/styles/viewcomic.module.css';
+import { LinearProgress } from '@mui/material';
 
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
 
@@ -33,7 +34,7 @@ const ViewComic = ({
 
     const fetchData = async () => {
         try {
-            const response = await axios.get(`/api/comics/${params.id}`);
+            const response = await axios.get(`/api/comics/${params.id}?id=${params.id}`);
             setViewComic(response.data);
         } catch (error) {
             setError('Failed to load comic');
@@ -53,7 +54,7 @@ const ViewComic = ({
     }
 
     if (!viewComic) {
-        return <div>Loading...</div>;
+        return <LinearProgress />
     }
 
     return (
@@ -64,8 +65,8 @@ const ViewComic = ({
                 onLoadSuccess={onDocumentLoadSuccess}
                 onLoadError={onDocumentLoadError}
             >
-                <Page 
-                    pageNumber={pageNumber} 
+                <Page
+                    pageNumber={pageNumber}
                     width={500}
                 />
             </Document>
@@ -73,14 +74,14 @@ const ViewComic = ({
                 Page {pageNumber} of {numPages ?? '...'}
             </p>
             <div>
-                <button 
-                    disabled={pageNumber <= 1} 
+                <button
+                    disabled={pageNumber <= 1}
                     onClick={() => setPageNumber(pageNumber - 1)}
                 >
                     Previous
                 </button>
-                <button 
-                    disabled={numPages === undefined || pageNumber >= numPages} 
+                <button
+                    disabled={numPages === undefined || pageNumber >= numPages}
                     onClick={() => setPageNumber(pageNumber + 1)}
                 >
                     Next
