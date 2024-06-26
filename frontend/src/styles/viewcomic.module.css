@@ -7,11 +7,17 @@
 }
 
 .document {
-    width: 100%;
-    max-width: 500px;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    width: max-content;
+    height: 100%;
+    overflow: hidden;
+    overflow-y: auto;
 }
 
 .page {
+    width: 100%;
     display: flex;
     justify-content: center;
 }

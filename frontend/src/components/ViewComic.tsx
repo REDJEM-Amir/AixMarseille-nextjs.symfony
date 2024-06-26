@@ -26,7 +26,6 @@ const ViewComic = ({
     const [error, setError] = useState<string | null>(null);
     const [numPages, setNumPages] = useState<number | undefined>(undefined);
     const [pageNumber, setPageNumber] = useState<number>(1);
-    const [containerWidth, setContainerWidth] = useState<number>(500);
 
     useEffect(() => {
         fetchData();
@@ -34,7 +33,7 @@ const ViewComic = ({
 
     const fetchData = async () => {
         try {
-            const response = await axios.get(`/api/comics/${params.id}?id=${params.id}`);
+            const response = await axios.get(`/api/comics/${params.id}`);
             setViewComic(response.data);
         } catch (error) {
             setError('Failed to load comic');
@@ -65,7 +64,10 @@ const ViewComic = ({
                 onLoadSuccess={onDocumentLoadSuccess}
                 onLoadError={onDocumentLoadError}
             >
-                <Page pageNumber={pageNumber} width={containerWidth} />
+                <Page 
+                    pageNumber={pageNumber} 
+                    width={500}
+                />
             </Document>
             <p>
                 Page {pageNumber} of {numPages ?? '...'}
