@@ -26,7 +26,7 @@ const Header = async () => {
                     <Link href="/security" className={css.contentLogin}>
                         <div className={css.textLogin}>Ajouter des comics</div>
                     </Link>
-                    <a href="/api/auth/logout" className={css.contentLogin}>
+                    <a href="/api/auth/logout" className={css.contentLogout}>
                         <div className={css.textLogin}>Déconnectez-vous</div>
                     </a>
                 </div>
