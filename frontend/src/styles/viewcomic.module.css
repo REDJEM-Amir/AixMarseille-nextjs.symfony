@@ -3,12 +3,12 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    height: 100vh;
+    height: 85vh;
 }
 
 .document {
-    max-height: max-content;
-    overflow: auto;
+    width: 100%;
+    max-width: 500px;
 }
 
 .page {

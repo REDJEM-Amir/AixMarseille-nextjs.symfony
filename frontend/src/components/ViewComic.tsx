@@ -26,6 +26,7 @@ const ViewComic = ({
     const [error, setError] = useState<string | null>(null);
     const [numPages, setNumPages] = useState<number | undefined>(undefined);
     const [pageNumber, setPageNumber] = useState<number>(1);
+    const [containerWidth, setContainerWidth] = useState<number>(500);
 
     useEffect(() => {
         fetchData();
@@ -64,7 +65,7 @@ const ViewComic = ({
                 onLoadSuccess={onDocumentLoadSuccess}
                 onLoadError={onDocumentLoadError}
             >
-                <Page pageNumber={pageNumber} scale={1.5} />
+                <Page pageNumber={pageNumber} width={containerWidth} />
             </Document>
             <p>
                 Page {pageNumber} of {numPages ?? '...'}
