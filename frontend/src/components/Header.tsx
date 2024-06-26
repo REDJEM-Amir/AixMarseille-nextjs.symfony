@@ -8,9 +8,9 @@ const Header = async () => {
     if (!session) {
         return (
             <div className={css.container}>
-                <div className={css.contentTitle}>
+                <Link href="/" className={css.contentTitle}>
                     <div className={css.title}>Love Comics</div>
-                </div>
+                </Link>
                 <a href="/api/auth/login" className={css.contentLogin}>
                     <div className={css.textLogin}>Connectez-vous</div>
                 </a>
