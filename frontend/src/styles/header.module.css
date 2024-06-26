@@ -28,13 +28,21 @@
     user-select: none;
 }
 
+@media (max-width: 500px) {
+    .title {
+        font-size: 16px;
+    }
+    .textLogin {
+        font-size: 10px;
+    }
+}
+
 .contentAccess {
     position: relative;
     display: flex;
     flex-direction: row;
     justify-content: center;
     align-items: center;
-    margin-right: 60px;
 }
 
 .contentLogin {
