@@ -67,7 +67,7 @@ const ViewComic = ({
             >
                 <Page
                     pageNumber={pageNumber}
-                    width={500}
+                    width={370}
                 />
             </Document>
             <p>
