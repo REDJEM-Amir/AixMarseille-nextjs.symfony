@@ -68,7 +68,7 @@ jobs:
             export POSTGRES_PASSWORD=${{ secrets.POSTGRES_PASSWORD }}
             docker compose up -d
             docker image prune -f
-            
+
       - name: Run Backend
         uses: appleboy/ssh-action@master 
         with:
@@ -87,6 +87,7 @@ jobs:
             APP_ENV=${{ secrets.APP_ENV }}
             EOF
             composer install
+            php bin/console make:migration --no-interaction
             php bin/console doctrine:migrations:migrate --no-interaction
             pm2 start "symfony server:start --port=5601" --name "api.library"
 
